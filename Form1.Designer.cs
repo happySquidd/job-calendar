@@ -32,20 +32,21 @@
             monthLabel = new Label();
             nextBtn = new Button();
             previousBtn = new Button();
+            yearLabel = new Label();
             SuspendLayout();
             // 
             // CalendarFlowPanel
             // 
             CalendarFlowPanel.Location = new Point(12, 92);
             CalendarFlowPanel.Name = "CalendarFlowPanel";
-            CalendarFlowPanel.Size = new Size(395, 344);
+            CalendarFlowPanel.Size = new Size(395, 362);
             CalendarFlowPanel.TabIndex = 0;
             // 
             // monthLabel
             // 
             monthLabel.AutoSize = true;
             monthLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            monthLabel.Location = new Point(165, 61);
+            monthLabel.Location = new Point(177, 61);
             monthLabel.Name = "monthLabel";
             monthLabel.Size = new Size(61, 23);
             monthLabel.TabIndex = 1;
@@ -71,11 +72,21 @@
             previousBtn.UseVisualStyleBackColor = true;
             previousBtn.Click += previousBtn_Click;
             // 
+            // yearLabel
+            // 
+            yearLabel.AutoSize = true;
+            yearLabel.Location = new Point(14, 6);
+            yearLabel.Name = "yearLabel";
+            yearLabel.Size = new Size(29, 15);
+            yearLabel.TabIndex = 4;
+            yearLabel.Text = "year";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(419, 448);
+            ClientSize = new Size(419, 466);
+            Controls.Add(yearLabel);
             Controls.Add(previousBtn);
             Controls.Add(nextBtn);
             Controls.Add(monthLabel);
@@ -92,5 +103,6 @@
         private Label monthLabel;
         private Button nextBtn;
         private Button previousBtn;
+        private Label yearLabel;
     }
 }

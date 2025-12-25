@@ -14,6 +14,7 @@ namespace job_calendar
         private void MakeTheCalendar(DateTime date)
         {
             monthLabel.Text = date.ToString("MMMM");
+            yearLabel.Text = date.ToString("yyyy");
             // name for days of week
             for (int i = 0; i < 7; i++)
             {
