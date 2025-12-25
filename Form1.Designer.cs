@@ -45,7 +45,7 @@
             // 
             monthLabel.AutoSize = true;
             monthLabel.Font = new Font("Calibri", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            monthLabel.Location = new Point(177, 61);
+            monthLabel.Location = new Point(165, 61);
             monthLabel.Name = "monthLabel";
             monthLabel.Size = new Size(61, 23);
             monthLabel.TabIndex = 1;
