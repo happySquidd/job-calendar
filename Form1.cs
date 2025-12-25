@@ -15,6 +15,7 @@ namespace job_calendar
         {
             monthLabel.Text = date.ToString("MMMM");
             yearLabel.Text = date.ToString("yyyy");
+
             // name for days of week
             for (int i = 0; i < 7; i++)
             {
@@ -25,6 +26,7 @@ namespace job_calendar
                 dayName.TextAlign = ContentAlignment.MiddleCenter;
                 CalendarFlowPanel.Controls.Add(dayName);
             }
+
             // days in month
             int daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
             for (int i = 1; i <= daysInMonth; i++)
@@ -55,6 +57,7 @@ namespace job_calendar
                 }
 
                 Button dayButton = new Button();
+                dayButton.Click += TurnGreen;
                 dayButton.Text = i.ToString();
                 dayButton.Width = 50;
                 dayButton.Height = 50;
@@ -74,6 +77,12 @@ namespace job_calendar
             CalendarFlowPanel.Controls.Clear();
             counter--;
             MakeTheCalendar(DateTime.Now.AddMonths(counter));
+        }
+
+        private void TurnGreen(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            button.BackColor = Color.LightGreen;
         }
     }
 }

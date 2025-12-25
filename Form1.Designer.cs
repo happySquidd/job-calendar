@@ -54,12 +54,13 @@
             // 
             // nextBtn
             // 
+            nextBtn.BackColor = SystemColors.Window;
             nextBtn.Location = new Point(332, 63);
             nextBtn.Name = "nextBtn";
             nextBtn.Size = new Size(75, 23);
             nextBtn.TabIndex = 2;
             nextBtn.Text = "next";
-            nextBtn.UseVisualStyleBackColor = true;
+            nextBtn.UseVisualStyleBackColor = false;
             nextBtn.Click += nextBtn_Click;
             // 
             // previousBtn
