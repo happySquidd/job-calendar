@@ -108,7 +108,7 @@ namespace job_calendar
                     return Color.FromArgb(204, 255, 204);
                 case 2:
                     return Color.FromArgb(153, 255, 153);
-                case 3:
+                case >=3:
                     return Color.FromArgb(102, 255, 102);
                 default:
                     return Color.White;
