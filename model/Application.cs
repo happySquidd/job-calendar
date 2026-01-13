@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace job_calendar.model
 {
-    internal class Application
+    public class Application
     {
+        public string Date { get; set; }
+        public string Position { get; set; }
+        public string Company { get; set; }
+        public int Pay { get; set; }
+        public string Website { get; set; }
     }
 }

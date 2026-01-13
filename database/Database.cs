@@ -45,5 +45,35 @@ namespace job_calendar.database
             connection.Close();
             Console.WriteLine("connection closed");
         }
+
+        public static Dictionary<string, int> LoadMonthHeatmap(DateTime start, DateTime end)
+        {
+            Dictionary<string, int> monthApplications = new Dictionary<string, int>();
+
+            string query =
+                "USE job_list; " +
+                "SELECT date, COUNT(*) AS application_count " +
+                "FROM applications " +
+                "WHERE date BETWEEN @startDate AND @endDate " +
+                "GROUP BY date;";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@startDate", start.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("@endDate", end.ToString("yyyy-MM-dd"));
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    // convert datetime into a yyyy-MM-dd string
+                    string date = reader.GetDateTime("date").ToString("yyyy-MM-dd");
+                    int count = reader.GetInt32("application_count");
+                    monthApplications.Add(date, count);
+                }
+                reader.Close();
+            }
+
+            return monthApplications;
+        }
     }
 }

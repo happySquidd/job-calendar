@@ -1,3 +1,5 @@
+using job_calendar.database;
+
 namespace job_calendar
 {
     public partial class Form1 : Form
@@ -27,6 +29,13 @@ namespace job_calendar
                 CalendarFlowPanel.Controls.Add(dayName);
             }
 
+            // get heatmap data
+            Dictionary<string, int> heatMap = new Dictionary<string, int>();
+            DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            DateTime lastDayOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
+
+            heatMap = Database.LoadMonthHeatmap(firstDayOfMonth, lastDayOfMonth);
+
             // days in month
             int daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
             for (int i = 1; i <= daysInMonth; i++)
@@ -34,7 +43,6 @@ namespace job_calendar
                 // fill empty cells before the first day to align days correctly
                 if (i == 1)
                 {
-                    DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
                     int dayOfWeek = firstDayOfMonth.DayOfWeek switch
                     {
                         DayOfWeek.Sunday => 0,
@@ -57,6 +65,13 @@ namespace job_calendar
                 }
 
                 Button dayButton = new Button();
+
+                // see if date is in database and color it accordingly
+                string dateKey = $"{date.Year}-{date.Month}-{i}";
+                if (heatMap.TryGetValue(dateKey, out int entries))
+                {
+                    dayButton.BackColor = MakeGreen(entries);
+                }
                 dayButton.Click += TurnGreen;
                 dayButton.Text = i.ToString();
                 dayButton.Width = 50;
@@ -83,6 +98,21 @@ namespace job_calendar
         {
             Button button = sender as Button;
             button.BackColor = Color.LightGreen;
+        }
+
+        private Color MakeGreen(int number)
+        {
+            switch (number)
+            {
+                case 1:
+                    return Color.FromArgb(204, 255, 204);
+                case 2:
+                    return Color.FromArgb(153, 255, 153);
+                case 3:
+                    return Color.FromArgb(102, 255, 102);
+                default:
+                    return Color.White;
+            }
         }
     }
 }
