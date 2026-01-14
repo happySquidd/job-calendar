@@ -10,8 +10,8 @@ namespace job_calendar
         {
             InitializeComponent();
 
-            DateTime Date = DateTime.Now;
-            MakeTheCalendar(Date);
+            DateTime date = DateTime.Now;
+            MakeTheCalendar(date);
         }
 
         private void MakeTheCalendar(DateTime date)
@@ -77,6 +77,7 @@ namespace job_calendar
                 dayButton.Text = i.ToString();
                 dayButton.Width = 50;
                 dayButton.Height = 50;
+                dayButton.Tag = new DateTime(date.Year, date.Month, i);
                 CalendarFlowPanel.Controls.Add(dayButton);
             }
         }
@@ -98,7 +99,8 @@ namespace job_calendar
         private void TurnGreen(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            button.BackColor = Color.LightGreen;
+            DayView dayView = new DayView((DateTime)button.Tag);
+            dayView.ShowDialog();
         }
 
         private Color MakeGreen(int number)
