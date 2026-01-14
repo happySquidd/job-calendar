@@ -47,10 +47,10 @@ namespace job_calendar
         {
             AddEntry addEntry = new AddEntry(thisDate);
             addEntry.StartPosition = FormStartPosition.CenterParent;
-            DialogResult dialogResult = addEntry.ShowDialog(this);
+            DialogResult result = addEntry.ShowDialog(this);
 
             // if added entry
-            if (dialogResult == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
                 LoadDgv();
             }
@@ -64,9 +64,14 @@ namespace job_calendar
             }
 
             Applicationz selected = dayListDgv.CurrentRow.DataBoundItem as Applicationz;
-            EditEntry editEntry = new EditEntry();
+            EditEntry editEntry = new EditEntry(selected);
             editEntry.StartPosition = FormStartPosition.CenterParent;
-            editEntry.ShowDialog(this);
+            DialogResult result = editEntry.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                LoadDgv();
+            }
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)

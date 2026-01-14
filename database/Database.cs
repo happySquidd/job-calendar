@@ -179,5 +179,42 @@ namespace job_calendar.database
                 }
             }
         }
+
+        public static void EditEntry(int id, string position, string company, int pay, string website)
+        {
+            string query =
+                "UPDATE applications " +
+                "SET position = @position, company = @company, pay = @pay, website = @website " +
+                "WHERE id = @id;";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@position", position);
+                cmd.Parameters.AddWithValue("@company", company);
+                cmd.Parameters.AddWithValue("@pay", pay);
+                cmd.Parameters.AddWithValue("@website", website);
+
+                try
+                {
+                    int result = cmd.ExecuteNonQuery();
+                    if (result == 1)
+                    {
+                        Debug.WriteLine("update success");
+                        return;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("error updating");
+                        return;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    Debug.WriteLine("sql error: " + ex.Message);
+                    return;
+                }
+            }
+        }
     }
 }
