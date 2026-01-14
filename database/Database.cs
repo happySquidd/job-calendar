@@ -216,5 +216,30 @@ namespace job_calendar.database
                 }
             }
         }
+
+        public static int GetDayEntries(DateTime date)
+        {
+            string query =
+                "SELECT COUNT(*) " +
+                "FROM applications " +
+                "WHERE date = @date;";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@date", date.ToString("yyyy-MM-dd"));
+
+                try
+                {
+                    int result = Convert.ToInt32(cmd.ExecuteScalar());
+                    return result;
+                }
+                catch (MySqlException ex)
+                {
+                    Debug.WriteLine("sql error:" + ex.Message);
+                    return 0;
+                }
+
+            }
+        }
     }
 }

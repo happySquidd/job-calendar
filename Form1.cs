@@ -5,7 +5,9 @@ namespace job_calendar
 {
     public partial class Form1 : Form
     {
-        public int counter = 0;
+        public Dictionary<string, int> heatMap = new Dictionary<string, int>();
+        public int monthCounter = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -31,10 +33,8 @@ namespace job_calendar
             }
 
             // get heatmap data
-            Dictionary<string, int> heatMap = new Dictionary<string, int>();
             DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             DateTime lastDayOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
-
             heatMap = Database.LoadMonthHeatmap(firstDayOfMonth, lastDayOfMonth);
 
             // days in month
@@ -78,6 +78,7 @@ namespace job_calendar
                 dayButton.Width = 50;
                 dayButton.Height = 50;
                 dayButton.FlatStyle = FlatStyle.Flat;
+                // tag to know the date
                 dayButton.Tag = new DateTime(date.Year, date.Month, i);
                 CalendarFlowPanel.Controls.Add(dayButton);
             }
@@ -86,26 +87,32 @@ namespace job_calendar
         private void nextBtn_Click(object sender, EventArgs e)
         {
             CalendarFlowPanel.Controls.Clear();
-            counter++;
-            MakeTheCalendar(DateTime.Now.AddMonths(counter));
+            monthCounter++;
+            MakeTheCalendar(DateTime.Now.AddMonths(monthCounter));
         }
 
         private void previousBtn_Click(object sender, EventArgs e)
         {
             CalendarFlowPanel.Controls.Clear();
-            counter--;
-            MakeTheCalendar(DateTime.Now.AddMonths(counter));
+            monthCounter--;
+            MakeTheCalendar(DateTime.Now.AddMonths(monthCounter));
         }
 
         private void ViewDay(object sender, EventArgs e)
         {
+            // load the day view form with the date
             Button button = sender as Button;
-            DayView dayView = new DayView((DateTime)button.Tag);
+            DateTime btnDate = (DateTime)button.Tag;
+            DayView dayView = new DayView(btnDate);
             dayView.StartPosition = FormStartPosition.CenterParent;
             dayView.ShowDialog(this);
+
+            // update the back color
+            int entries = Database.GetDayEntries(btnDate);
+            button.BackColor = MakeGreen(entries);
         }
 
-        private Color MakeGreen(int number)
+        private static Color MakeGreen(int number)
         {
             switch (number)
             {
