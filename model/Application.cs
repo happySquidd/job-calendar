@@ -8,6 +8,7 @@ namespace job_calendar.model
 {
     public class Applicationz
     {
+        public int Id { get; set; }
         public string Date { get; set; }
         public string Position { get; set; }
         public string Company { get; set; }

@@ -97,6 +97,7 @@ namespace job_calendar.database
                 {
                     Applicationz application = new Applicationz()
                     {
+                        Id = Convert.ToInt32(reader["id"]),
                         Date = Convert.ToString(reader["date"]),
                         Position = Convert.ToString(reader["position"]),
                         Company = Convert.ToString(reader["company"]),
@@ -114,7 +115,6 @@ namespace job_calendar.database
         public static void AddEntry(DateTime date, string position, string company, int pay, string? website)
         {
             string query =
-                "USE job_list; " +
                 "INSERT INTO applications " +
                 "(date, position, company, pay, website) " +
                 "VALUES (@date, @position, @company, @pay, @website);";
@@ -137,6 +137,38 @@ namespace job_calendar.database
                     else
                     {
                         Console.WriteLine("error entering data in mysql");
+                        return;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    Debug.WriteLine("sql error: " + ex.Message);
+                    return;
+                }
+            }
+        }
+
+        public static void DeleteEntry(int id)
+        {
+            string query =
+                "DELETE FROM applications " +
+                "WHERE id = @id;";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+
+                try
+                {
+                    int result = cmd.ExecuteNonQuery();
+                    if (result == 1)
+                    {
+                        Debug.WriteLine("success");
+                        return;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("error deleting from database");
                         return;
                     }
                 }

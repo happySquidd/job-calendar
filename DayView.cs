@@ -25,7 +25,7 @@ namespace job_calendar
             // visual style
             dayListDgv.EnableHeadersVisualStyles = false;
             dayListDgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = dayListDgv.ColumnHeadersDefaultCellStyle.BackColor;
-
+            
             thisDate = date;
             LoadDgv();
         }
@@ -35,6 +35,7 @@ namespace job_calendar
             // load the data with the list of applications
             applications = Database.GetApplications(thisDate);
             dayListDgv.DataSource = applications;
+            dayListDgv.Columns["Id"].Visible = false;
         }
 
         private void dataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -82,7 +83,7 @@ namespace job_calendar
             }
 
             Applicationz selected = dayListDgv.CurrentRow.DataBoundItem as Applicationz;
-            //Database.DeleteEntry(selected);
+            Database.DeleteEntry(selected.Id);
             applications.Remove(selected);
         }
 
