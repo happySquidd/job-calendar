@@ -36,7 +36,9 @@ namespace job_calendar
 
         private void addBtn_Click(object sender, EventArgs e)
         {
-
+            AddEntry addEntry = new AddEntry();
+            addEntry.StartPosition = FormStartPosition.CenterParent;
+            addEntry.ShowDialog(this);
         }
 
         private void editBtn_Click(object sender, EventArgs e)
@@ -47,7 +49,9 @@ namespace job_calendar
             }
 
             Applicationz selected = dayListDgv.CurrentRow.DataBoundItem as Applicationz;
-            
+            EditEntry editEntry = new EditEntry();
+            editEntry.StartPosition = FormStartPosition.CenterParent;
+            editEntry.ShowDialog(this);
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)

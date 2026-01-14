@@ -104,6 +104,9 @@
             Controls.Add(editBtn);
             Controls.Add(addBtn);
             Controls.Add(dayListDgv);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "DayView";
             Text = "Day View";
             ((System.ComponentModel.ISupportInitialize)dayListDgv).EndInit();

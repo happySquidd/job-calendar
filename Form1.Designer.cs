@@ -104,6 +104,9 @@
             Controls.Add(nextBtn);
             Controls.Add(monthLabel);
             Controls.Add(CalendarFlowPanel);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form1";
             Text = "Joble";
             ResumeLayout(false);

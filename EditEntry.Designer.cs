@@ -150,6 +150,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "EditEntry";
             Text = "Edit";
             ((System.ComponentModel.ISupportInitialize)payBox).EndInit();
