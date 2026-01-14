@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using job_calendar.model;
+using System.ComponentModel;
 
 namespace job_calendar.database
 {
@@ -77,9 +78,9 @@ namespace job_calendar.database
             return monthApplications;
         }
 
-        public static List<Applicationz> GetApplications(DateTime date)
+        public static BindingList<Applicationz> GetApplications(DateTime date)
         {
-            List<Applicationz> allApplications = new List<Applicationz>();
+            BindingList<Applicationz> allApplications = new BindingList<Applicationz>();
 
             string query =
                 "SELECT * " +

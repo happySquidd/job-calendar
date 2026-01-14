@@ -33,6 +33,7 @@
             nextBtn = new Button();
             previousBtn = new Button();
             yearLabel = new Label();
+            closeBtn = new Button();
             SuspendLayout();
             // 
             // CalendarFlowPanel
@@ -82,11 +83,22 @@
             yearLabel.TabIndex = 4;
             yearLabel.Text = "year";
             // 
+            // closeBtn
+            // 
+            closeBtn.Location = new Point(332, 454);
+            closeBtn.Name = "closeBtn";
+            closeBtn.Size = new Size(75, 23);
+            closeBtn.TabIndex = 5;
+            closeBtn.Text = "Close";
+            closeBtn.UseVisualStyleBackColor = true;
+            closeBtn.Click += closeBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(419, 466);
+            ClientSize = new Size(419, 489);
+            Controls.Add(closeBtn);
             Controls.Add(yearLabel);
             Controls.Add(previousBtn);
             Controls.Add(nextBtn);
@@ -105,5 +117,6 @@
         private Button nextBtn;
         private Button previousBtn;
         private Label yearLabel;
+        private Button closeBtn;
     }
 }

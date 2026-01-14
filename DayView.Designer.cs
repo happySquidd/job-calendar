@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             dayListDgv = new DataGridView();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
+            addBtn = new Button();
+            editBtn = new Button();
+            deleteBtn = new Button();
+            closeBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)dayListDgv).BeginInit();
             SuspendLayout();
             // 
@@ -53,51 +53,56 @@
             dayListDgv.TabIndex = 0;
             dayListDgv.DataBindingComplete += dataBindingComplete;
             // 
-            // button1
+            // addBtn
             // 
-            button1.Location = new Point(12, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 1;
-            button1.Text = "Add";
-            button1.UseVisualStyleBackColor = true;
+            addBtn.Location = new Point(12, 12);
+            addBtn.Name = "addBtn";
+            addBtn.Size = new Size(75, 23);
+            addBtn.TabIndex = 1;
+            addBtn.Text = "Add";
+            addBtn.UseVisualStyleBackColor = true;
+            addBtn.Click += addBtn_Click;
             // 
-            // button2
+            // editBtn
             // 
-            button2.Location = new Point(93, 12);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 2;
-            button2.Text = "Edit";
-            button2.UseVisualStyleBackColor = true;
+            editBtn.Location = new Point(93, 12);
+            editBtn.Name = "editBtn";
+            editBtn.Size = new Size(75, 23);
+            editBtn.TabIndex = 2;
+            editBtn.Text = "Edit";
+            editBtn.UseVisualStyleBackColor = true;
+            editBtn.Click += editBtn_Click;
             // 
-            // button3
+            // deleteBtn
             // 
-            button3.Location = new Point(174, 12);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 3;
-            button3.Text = "Delete";
-            button3.UseVisualStyleBackColor = true;
+            deleteBtn.Location = new Point(174, 12);
+            deleteBtn.Name = "deleteBtn";
+            deleteBtn.Size = new Size(75, 23);
+            deleteBtn.TabIndex = 3;
+            deleteBtn.Text = "Delete";
+            deleteBtn.UseVisualStyleBackColor = true;
+            deleteBtn.Click += deleteBtn_Click;
             // 
-            // button4
+            // closeBtn
             // 
-            button4.Location = new Point(272, 12);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 4;
-            button4.Text = "Close";
-            button4.UseVisualStyleBackColor = true;
+            closeBtn.BackColor = SystemColors.Window;
+            closeBtn.Location = new Point(272, 12);
+            closeBtn.Name = "closeBtn";
+            closeBtn.Size = new Size(75, 23);
+            closeBtn.TabIndex = 4;
+            closeBtn.Text = "Close";
+            closeBtn.UseVisualStyleBackColor = false;
+            closeBtn.Click += closeBtn_Click;
             // 
             // DayView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(359, 210);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(closeBtn);
+            Controls.Add(deleteBtn);
+            Controls.Add(editBtn);
+            Controls.Add(addBtn);
             Controls.Add(dayListDgv);
             Name = "DayView";
             Text = "Day View";
@@ -108,9 +113,9 @@
         #endregion
 
         private DataGridView dayListDgv;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
+        private Button addBtn;
+        private Button editBtn;
+        private Button deleteBtn;
+        private Button closeBtn;
     }
 }

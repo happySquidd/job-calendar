@@ -14,6 +14,8 @@ namespace job_calendar
 {
     public partial class DayView : Form
     {
+        public BindingList<Applicationz> applications = new BindingList<Applicationz>();
+
         public DayView(DateTime date)
         {
             InitializeComponent();
@@ -21,14 +23,54 @@ namespace job_calendar
             // visual style
             dayListDgv.EnableHeadersVisualStyles = false;
             dayListDgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = dayListDgv.ColumnHeadersDefaultCellStyle.BackColor;
+
             // load the data with the list of applications
-            List<Applicationz> applications = Database.GetApplications(date);
+            applications = Database.GetApplications(date);
             dayListDgv.DataSource = applications;
         }
 
         private void dataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dayListDgv.ClearSelection();
+        }
+
+        private void addBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editBtn_Click(object sender, EventArgs e)
+        {
+            if (dayListDgv.CurrentRow == null || !dayListDgv.CurrentRow.Selected)
+            {
+                return;
+            }
+
+            Applicationz selected = dayListDgv.CurrentRow.DataBoundItem as Applicationz;
+            
+        }
+
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            // validation
+            if (dayListDgv.CurrentRow == null || !dayListDgv.CurrentRow.Selected)
+            {
+                return;
+            }
+            DialogResult answer = MessageBox.Show(text: "Delete the selected item?", caption: "Confirm", buttons: MessageBoxButtons.YesNo);
+            if (answer == DialogResult.No)
+            {
+                return;
+            }
+
+            Applicationz selected = dayListDgv.CurrentRow.DataBoundItem as Applicationz;
+            //Database.DeleteEntry(selected);
+            applications.Remove(selected);
+        }
+
+        private void closeBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

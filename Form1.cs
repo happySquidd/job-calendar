@@ -73,10 +73,11 @@ namespace job_calendar
                 {
                     dayButton.BackColor = MakeGreen(entries);
                 }
-                dayButton.Click += TurnGreen;
+                dayButton.Click += ViewDay;
                 dayButton.Text = i.ToString();
                 dayButton.Width = 50;
                 dayButton.Height = 50;
+                dayButton.FlatStyle = FlatStyle.Flat;
                 dayButton.Tag = new DateTime(date.Year, date.Month, i);
                 CalendarFlowPanel.Controls.Add(dayButton);
             }
@@ -96,11 +97,12 @@ namespace job_calendar
             MakeTheCalendar(DateTime.Now.AddMonths(counter));
         }
 
-        private void TurnGreen(object sender, EventArgs e)
+        private void ViewDay(object sender, EventArgs e)
         {
             Button button = sender as Button;
             DayView dayView = new DayView((DateTime)button.Tag);
-            dayView.ShowDialog();
+            dayView.StartPosition = FormStartPosition.CenterParent;
+            dayView.ShowDialog(this);
         }
 
         private Color MakeGreen(int number)
@@ -111,11 +113,16 @@ namespace job_calendar
                     return Color.FromArgb(204, 255, 204);
                 case 2:
                     return Color.FromArgb(153, 255, 153);
-                case >=3:
+                case >= 3:
                     return Color.FromArgb(51, 255, 51);
                 default:
                     return Color.White;
             }
+        }
+
+        private void closeBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
