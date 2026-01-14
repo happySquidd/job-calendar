@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace job_calendar.model
 {
-    public class Application
+    public class Applicationz
     {
         public string Date { get; set; }
         public string Position { get; set; }

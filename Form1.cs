@@ -1,4 +1,5 @@
 using job_calendar.database;
+using job_calendar.model;
 
 namespace job_calendar
 {
@@ -109,7 +110,7 @@ namespace job_calendar
                 case 2:
                     return Color.FromArgb(153, 255, 153);
                 case >=3:
-                    return Color.FromArgb(102, 255, 102);
+                    return Color.FromArgb(51, 255, 51);
                 default:
                     return Color.White;
             }
