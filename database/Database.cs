@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using job_calendar.model;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace job_calendar.database
 {
@@ -108,6 +109,43 @@ namespace job_calendar.database
                 reader.Close();
             }
             return allApplications;
+        }
+
+        public static void AddEntry(DateTime date, string position, string company, int pay, string? website)
+        {
+            string query =
+                "USE job_list; " +
+                "INSERT INTO applications " +
+                "(date, position, company, pay, website) " +
+                "VALUES (@date, @position, @company, @pay, @website);";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@date", date.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("@position", position);
+                cmd.Parameters.AddWithValue("@company", company);
+                cmd.Parameters.AddWithValue("@pay", pay);
+                cmd.Parameters.AddWithValue("@website", website);
+
+                try
+                {
+                    int result = cmd.ExecuteNonQuery();
+                    if (result == 1)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("error entering data in mysql");
+                        return;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    Debug.WriteLine("sql error: " + ex.Message);
+                    return;
+                }
+            }
         }
     }
 }

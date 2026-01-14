@@ -9,12 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace job_calendar
 {
     public partial class DayView : Form
     {
         public BindingList<Applicationz> applications = new BindingList<Applicationz>();
+        public DateTime thisDate;
 
         public DayView(DateTime date)
         {
@@ -24,8 +26,14 @@ namespace job_calendar
             dayListDgv.EnableHeadersVisualStyles = false;
             dayListDgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = dayListDgv.ColumnHeadersDefaultCellStyle.BackColor;
 
+            thisDate = date;
+            LoadDgv();
+        }
+
+        private void LoadDgv()
+        {
             // load the data with the list of applications
-            applications = Database.GetApplications(date);
+            applications = Database.GetApplications(thisDate);
             dayListDgv.DataSource = applications;
         }
 
@@ -36,9 +44,15 @@ namespace job_calendar
 
         private void addBtn_Click(object sender, EventArgs e)
         {
-            AddEntry addEntry = new AddEntry();
+            AddEntry addEntry = new AddEntry(thisDate);
             addEntry.StartPosition = FormStartPosition.CenterParent;
-            addEntry.ShowDialog(this);
+            DialogResult dialogResult = addEntry.ShowDialog(this);
+
+            // if added entry
+            if (dialogResult == DialogResult.OK)
+            {
+                LoadDgv();
+            }
         }
 
         private void editBtn_Click(object sender, EventArgs e)

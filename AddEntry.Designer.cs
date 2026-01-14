@@ -94,6 +94,7 @@
             positionBox.Name = "positionBox";
             positionBox.Size = new Size(167, 23);
             positionBox.TabIndex = 5;
+            positionBox.TextChanged += positionBox_TextChanged;
             // 
             // companyBox
             // 
@@ -101,6 +102,7 @@
             companyBox.Name = "companyBox";
             companyBox.Size = new Size(167, 23);
             companyBox.TabIndex = 6;
+            companyBox.TextChanged += companyBox_TextChanged;
             // 
             // payBox
             // 
@@ -108,6 +110,7 @@
             payBox.Name = "payBox";
             payBox.Size = new Size(57, 23);
             payBox.TabIndex = 8;
+            payBox.ValueChanged += payBox_ValueChanged;
             // 
             // websiteBox
             // 
@@ -115,6 +118,7 @@
             websiteBox.Name = "websiteBox";
             websiteBox.Size = new Size(167, 23);
             websiteBox.TabIndex = 9;
+            websiteBox.TextChanged += websiteBox_TextChanged;
             // 
             // addBtn
             // 
@@ -124,6 +128,7 @@
             addBtn.TabIndex = 10;
             addBtn.Text = "Add";
             addBtn.UseVisualStyleBackColor = true;
+            addBtn.Click += addBtn_Click;
             // 
             // cancelBtn
             // 
@@ -133,11 +138,14 @@
             cancelBtn.TabIndex = 11;
             cancelBtn.Text = "Cancel";
             cancelBtn.UseVisualStyleBackColor = true;
+            cancelBtn.Click += cancelBtn_Click;
             // 
             // AddEntry
             // 
+            AcceptButton = addBtn;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = cancelBtn;
             ClientSize = new Size(293, 250);
             Controls.Add(cancelBtn);
             Controls.Add(addBtn);
