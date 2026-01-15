@@ -1,5 +1,6 @@
 using job_calendar.database;
 using job_calendar.model;
+using System.Diagnostics;
 
 namespace job_calendar
 {
@@ -66,9 +67,10 @@ namespace job_calendar
                 }
 
                 Button dayButton = new Button();
+                DateTime buttonDay = new DateTime(date.Year, date.Month, i);
 
                 // see if date is in database and color it accordingly
-                string dateKey = $"{date.Year}-{date.Month}-{i}";
+                string dateKey = buttonDay.ToString("yyyy-MM-dd");
                 if (heatMap.TryGetValue(dateKey, out int entries))
                 {
                     dayButton.BackColor = MakeGreen(entries);
@@ -79,7 +81,7 @@ namespace job_calendar
                 dayButton.Height = 50;
                 dayButton.FlatStyle = FlatStyle.Flat;
                 // tag to know the date
-                dayButton.Tag = new DateTime(date.Year, date.Month, i);
+                dayButton.Tag = buttonDay;
                 CalendarFlowPanel.Controls.Add(dayButton);
             }
         }
@@ -120,8 +122,14 @@ namespace job_calendar
                     return Color.FromArgb(204, 255, 204);
                 case 2:
                     return Color.FromArgb(153, 255, 153);
-                case >= 3:
+                case 3:
+                    return Color.FromArgb(102, 255, 102);
+                case 4:
                     return Color.FromArgb(51, 255, 51);
+                case 5:
+                    return Color.FromArgb(0, 255, 0);
+                case >= 6:
+                    return Color.FromArgb(0, 204, 0);
                 default:
                     return Color.White;
             }
