@@ -1,52 +1,52 @@
-﻿using MySql.Data.MySqlClient;
+﻿using job_calendar.model;
+using Microsoft.Data.Sqlite;
+using Microsoft.VisualBasic;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using job_calendar.model;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace job_calendar.database
 {
-    internal class Database
+    public static class Database
     {
-        private static MySqlConnection connection { get; set; }
+        private static SqliteConnection _db;
 
         // open connection
         public static void OpenConnection()
         {
-            var builder = new MySqlConnectionStringBuilder
+            if (_db != null)
             {
-                Server = "localhost",
-                Database = "job_list",
-                UserID = "sqlUser",
-                Password = "Passw0rd!",
-                Port = 3306
-            };
-            var connectionString = builder.ConnectionString;
-
-            try
-            {
-                connection = new MySqlConnection(connectionString);
-                connection.Open();
-
-                Console.WriteLine("connection opened");
                 return;
             }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-                MessageBox.Show("Could not connect to database");
-                return;
-            }
+
+            // create the database
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string path = Path.Combine(appData, "myApplications.db");
+            _db = new SqliteConnection($"Filename={path}");
+            _db.Open();
+
+            string cmd =
+                "CREATE TABLE IF NOT EXISTS applications " +
+                "(id INTEGER PRIMARY KEY, " +
+                "date TEXT NOT NULL, " +
+                "position TEXT NOT NULL, " +
+                "company TEXT NOT NULL," +
+                "pay INTEGER NOT NULL, " +
+                "website TEXT)";
+            SqliteCommand makeTable = new SqliteCommand(cmd, _db);
+            makeTable.ExecuteReader();
         }
 
         public static void CloseConnection()
         {
-            connection.Close();
-            Console.WriteLine("connection closed");
+            _db.Close();
+            Debug.WriteLine("connection closed");
         }
 
         public static Dictionary<string, int> LoadMonthHeatmap(DateTime start, DateTime end)
@@ -54,28 +54,24 @@ namespace job_calendar.database
             Dictionary<string, int> monthApplications = new Dictionary<string, int>();
 
             string query =
-                "USE job_list; " +
                 "SELECT date, COUNT(*) AS application_count " +
                 "FROM applications " +
                 "WHERE date BETWEEN @startDate AND @endDate " +
                 "GROUP BY date;";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@startDate", start.ToString("yyyy-MM-dd"));
+            cmd.Parameters.AddWithValue("@endDate", end.ToString("yyyy-MM-dd"));
+
+            SqliteDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                cmd.Parameters.AddWithValue("@startDate", start.ToString("yyyy-MM-dd"));
-                cmd.Parameters.AddWithValue("@endDate", end.ToString("yyyy-MM-dd"));
-
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    // convert datetime into a yyyy-MM-dd string
-                    string date = reader.GetDateTime("date").ToString("yyyy-MM-dd");
-                    int count = reader.GetInt32("application_count");
-                    monthApplications.Add(date, count);
-                }
-                reader.Close();
+                // convert datetime into a yyyy-MM-dd string
+                string date = reader.GetString(0);
+                int count = reader.GetInt32("application_count");
+                monthApplications.Add(date, count);
             }
-
+            reader.Close();
             return monthApplications;
         }
 
@@ -88,27 +84,25 @@ namespace job_calendar.database
                 "FROM applications " +
                 "WHERE date=@today;";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@today", date.ToString("yyyy-MM-dd"));
+
+            SqliteDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                cmd.Parameters.AddWithValue("@today", date.ToString("yyyy-MM-dd"));
-
-                MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                Applicationz application = new Applicationz()
                 {
-                    Applicationz application = new Applicationz()
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Date = Convert.ToString(reader["date"]),
-                        Position = Convert.ToString(reader["position"]),
-                        Company = Convert.ToString(reader["company"]),
-                        Pay = Convert.ToInt32(reader["pay"]),
-                        Website = Convert.ToString(reader["website"])
-                    };
+                    Id = Convert.ToInt32(reader["id"]),
+                    Date = Convert.ToString(reader["date"]),
+                    Position = Convert.ToString(reader["position"]),
+                    Company = Convert.ToString(reader["company"]),
+                    Pay = Convert.ToInt32(reader["pay"]),
+                    Website = Convert.ToString(reader["website"])
+                };
 
-                    allApplications.Add(application);
-                }
-                reader.Close();
+                allApplications.Add(application);
             }
+            reader.Close();
             return allApplications;
         }
 
@@ -119,32 +113,30 @@ namespace job_calendar.database
                 "(date, position, company, pay, website) " +
                 "VALUES (@date, @position, @company, @pay, @website);";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
-            {
-                cmd.Parameters.AddWithValue("@date", date.ToString("yyyy-MM-dd"));
-                cmd.Parameters.AddWithValue("@position", position);
-                cmd.Parameters.AddWithValue("@company", company);
-                cmd.Parameters.AddWithValue("@pay", pay);
-                cmd.Parameters.AddWithValue("@website", website);
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@date", date.ToString("yyyy-MM-dd"));
+            cmd.Parameters.AddWithValue("@position", position);
+            cmd.Parameters.AddWithValue("@company", company);
+            cmd.Parameters.AddWithValue("@pay", pay);
+            cmd.Parameters.AddWithValue("@website", website);
 
-                try
+            try
+            {
+                int result = cmd.ExecuteNonQuery();
+                if (result == 1)
                 {
-                    int result = cmd.ExecuteNonQuery();
-                    if (result == 1)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        Console.WriteLine("error entering data in mysql");
-                        return;
-                    }
-                }
-                catch (MySqlException ex)
-                {
-                    Debug.WriteLine("sql error: " + ex.Message);
                     return;
                 }
+                else
+                {
+                    Console.WriteLine("error entering data in mysql");
+                    return;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("sql error: " + ex.Message);
+                return;
             }
         }
 
@@ -154,29 +146,27 @@ namespace job_calendar.database
                 "DELETE FROM applications " +
                 "WHERE id = @id;";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
-            {
-                cmd.Parameters.AddWithValue("@id", id);
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@id", id);
 
-                try
+            try
+            {
+                int result = cmd.ExecuteNonQuery();
+                if (result == 1)
                 {
-                    int result = cmd.ExecuteNonQuery();
-                    if (result == 1)
-                    {
-                        Debug.WriteLine("success");
-                        return;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("error deleting from database");
-                        return;
-                    }
-                }
-                catch (MySqlException ex)
-                {
-                    Debug.WriteLine("sql error: " + ex.Message);
+                    Debug.WriteLine("success");
                     return;
                 }
+                else
+                {
+                    Debug.WriteLine("error deleting from database");
+                    return;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("sql error: " + ex.Message);
+                return;
             }
         }
 
@@ -187,33 +177,31 @@ namespace job_calendar.database
                 "SET position = @position, company = @company, pay = @pay, website = @website " +
                 "WHERE id = @id;";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
-            {
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@position", position);
-                cmd.Parameters.AddWithValue("@company", company);
-                cmd.Parameters.AddWithValue("@pay", pay);
-                cmd.Parameters.AddWithValue("@website", website);
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@position", position);
+            cmd.Parameters.AddWithValue("@company", company);
+            cmd.Parameters.AddWithValue("@pay", pay);
+            cmd.Parameters.AddWithValue("@website", website);
 
-                try
+            try
+            {
+                int result = cmd.ExecuteNonQuery();
+                if (result == 1)
                 {
-                    int result = cmd.ExecuteNonQuery();
-                    if (result == 1)
-                    {
-                        Debug.WriteLine("update success");
-                        return;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("error updating");
-                        return;
-                    }
-                }
-                catch (MySqlException ex)
-                {
-                    Debug.WriteLine("sql error: " + ex.Message);
+                    Debug.WriteLine("update success");
                     return;
                 }
+                else
+                {
+                    Debug.WriteLine("error updating");
+                    return;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("sql error: " + ex.Message);
+                return;
             }
         }
 
@@ -224,21 +212,18 @@ namespace job_calendar.database
                 "FROM applications " +
                 "WHERE date = @date;";
 
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@date", date.ToString("yyyy-MM-dd"));
+
+            try
             {
-                cmd.Parameters.AddWithValue("@date", date.ToString("yyyy-MM-dd"));
-
-                try
-                {
-                    int result = Convert.ToInt32(cmd.ExecuteScalar());
-                    return result;
-                }
-                catch (MySqlException ex)
-                {
-                    Debug.WriteLine("sql error:" + ex.Message);
-                    return 0;
-                }
-
+                int result = Convert.ToInt32(cmd.ExecuteScalar());
+                return result;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.WriteLine("sql error:" + ex.Message);
+                return 0;
             }
         }
     }
