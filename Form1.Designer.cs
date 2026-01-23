@@ -34,6 +34,8 @@
             previousBtn = new Button();
             yearLabel = new Label();
             closeBtn = new Button();
+            label1 = new Label();
+            numOfApplications = new Label();
             SuspendLayout();
             // 
             // CalendarFlowPanel
@@ -93,11 +95,31 @@
             closeBtn.UseVisualStyleBackColor = true;
             closeBtn.Click += closeBtn_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(302, 6);
+            label1.Name = "label1";
+            label1.Size = new Size(76, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Applications:";
+            // 
+            // numOfApplications
+            // 
+            numOfApplications.AutoSize = true;
+            numOfApplications.Location = new Point(377, 6);
+            numOfApplications.Name = "numOfApplications";
+            numOfApplications.Size = new Size(32, 15);
+            numOfApplications.TabIndex = 7;
+            numOfApplications.Text = "num";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(419, 489);
+            Controls.Add(numOfApplications);
+            Controls.Add(label1);
             Controls.Add(closeBtn);
             Controls.Add(yearLabel);
             Controls.Add(previousBtn);
@@ -121,5 +143,7 @@
         private Button previousBtn;
         private Label yearLabel;
         private Button closeBtn;
+        private Label label1;
+        private Label numOfApplications;
     }
 }

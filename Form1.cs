@@ -37,6 +37,7 @@ namespace job_calendar
             DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             DateTime lastDayOfMonth = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
             heatMap = Database.LoadMonthHeatmap(firstDayOfMonth, lastDayOfMonth);
+            numOfApplications.Text = CountHeatMap(heatMap).ToString();
 
             // days in month
             int daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
@@ -68,6 +69,7 @@ namespace job_calendar
 
                 Button dayButton = new Button();
                 DateTime buttonDay = new DateTime(date.Year, date.Month, i);
+                dayButton.BackColor = Color.White;
 
                 // see if date is in database and color it accordingly
                 string dateKey = buttonDay.ToString("yyyy-MM-dd");
@@ -107,11 +109,17 @@ namespace job_calendar
             DateTime btnDate = (DateTime)button.Tag;
             DayView dayView = new DayView(btnDate);
             dayView.StartPosition = FormStartPosition.CenterParent;
+            // compare old entries to new to update the applications count
+            int oldEntries = Database.GetDayEntries(btnDate);
             dayView.ShowDialog(this);
 
             // update the back color
             int entries = Database.GetDayEntries(btnDate);
             button.BackColor = MakeGreen(entries);
+
+            // update count from the difference
+            int difference = entries - oldEntries;
+            UpdateApplicationCount(difference);
         }
 
         private static Color MakeGreen(int number)
@@ -133,6 +141,23 @@ namespace job_calendar
                 default:
                     return Color.White;
             }
+        }
+
+        private int CountHeatMap(Dictionary<string, int> heatMap)
+        {
+            int total = 0;
+            foreach (int v in heatMap.Values)
+            {
+                total += v;
+            }
+            return total;
+        }
+
+        private void UpdateApplicationCount(int difference)
+        {
+            int allApps = Int32.Parse(numOfApplications.Text);
+            int newApps = allApps + difference;
+            numOfApplications.Text = newApps.ToString();
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
