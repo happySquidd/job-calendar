@@ -36,6 +36,7 @@ namespace job_calendar
             applications = Database.GetApplications(thisDate);
             dayListDgv.DataSource = applications;
             dayListDgv.Columns["Id"].Visible = false;
+            numApplicationsLabel.Text = applications.Count.ToString();
         }
 
         private void dataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)

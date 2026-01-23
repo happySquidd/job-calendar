@@ -33,6 +33,8 @@
             editBtn = new Button();
             deleteBtn = new Button();
             closeBtn = new Button();
+            label1 = new Label();
+            numApplicationsLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)dayListDgv).BeginInit();
             SuspendLayout();
             // 
@@ -43,7 +45,7 @@
             dayListDgv.AllowUserToResizeRows = false;
             dayListDgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dayListDgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dayListDgv.Location = new Point(12, 41);
+            dayListDgv.Location = new Point(12, 60);
             dayListDgv.MultiSelect = false;
             dayListDgv.Name = "dayListDgv";
             dayListDgv.ReadOnly = true;
@@ -55,7 +57,7 @@
             // 
             // addBtn
             // 
-            addBtn.Location = new Point(12, 12);
+            addBtn.Location = new Point(12, 31);
             addBtn.Name = "addBtn";
             addBtn.Size = new Size(75, 23);
             addBtn.TabIndex = 1;
@@ -65,7 +67,7 @@
             // 
             // editBtn
             // 
-            editBtn.Location = new Point(93, 12);
+            editBtn.Location = new Point(93, 31);
             editBtn.Name = "editBtn";
             editBtn.Size = new Size(75, 23);
             editBtn.TabIndex = 2;
@@ -75,7 +77,7 @@
             // 
             // deleteBtn
             // 
-            deleteBtn.Location = new Point(174, 12);
+            deleteBtn.Location = new Point(174, 31);
             deleteBtn.Name = "deleteBtn";
             deleteBtn.Size = new Size(75, 23);
             deleteBtn.TabIndex = 3;
@@ -86,7 +88,7 @@
             // closeBtn
             // 
             closeBtn.BackColor = SystemColors.Window;
-            closeBtn.Location = new Point(272, 12);
+            closeBtn.Location = new Point(272, 31);
             closeBtn.Name = "closeBtn";
             closeBtn.Size = new Size(75, 23);
             closeBtn.TabIndex = 4;
@@ -94,11 +96,31 @@
             closeBtn.UseVisualStyleBackColor = false;
             closeBtn.Click += closeBtn_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(258, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(76, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Applications:";
+            // 
+            // numApplicationsLabel
+            // 
+            numApplicationsLabel.AutoSize = true;
+            numApplicationsLabel.Location = new Point(331, 9);
+            numApplicationsLabel.Name = "numApplicationsLabel";
+            numApplicationsLabel.Size = new Size(13, 15);
+            numApplicationsLabel.TabIndex = 6;
+            numApplicationsLabel.Text = "0";
+            // 
             // DayView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(359, 210);
+            ClientSize = new Size(359, 229);
+            Controls.Add(numApplicationsLabel);
+            Controls.Add(label1);
             Controls.Add(closeBtn);
             Controls.Add(deleteBtn);
             Controls.Add(editBtn);
@@ -111,6 +133,7 @@
             Text = "Day View";
             ((System.ComponentModel.ISupportInitialize)dayListDgv).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -120,5 +143,7 @@
         private Button editBtn;
         private Button deleteBtn;
         private Button closeBtn;
+        private Label label1;
+        private Label numApplicationsLabel;
     }
 }
