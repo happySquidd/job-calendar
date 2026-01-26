@@ -1,5 +1,6 @@
 using job_calendar.database;
 using job_calendar.model;
+using Microsoft.VisualBasic;
 using System.Diagnostics;
 
 namespace job_calendar
@@ -8,13 +9,13 @@ namespace job_calendar
     {
         public Dictionary<string, int> heatMap = new Dictionary<string, int>();
         public int monthCounter = 0;
+        public DateTime today = DateTime.Now;
 
         public Form1()
         {
             InitializeComponent();
 
-            DateTime date = DateTime.Now;
-            MakeTheCalendar(date);
+            MakeTheCalendar(today);
         }
 
         private void MakeTheCalendar(DateTime date)
@@ -79,6 +80,7 @@ namespace job_calendar
                 }
                 dayButton.Click += ViewDay;
                 dayButton.Text = i.ToString();
+                dayButton.Name = i.ToString();
                 dayButton.Width = 50;
                 dayButton.Height = 50;
                 dayButton.FlatStyle = FlatStyle.Flat;
@@ -158,6 +160,20 @@ namespace job_calendar
             int allApps = Int32.Parse(numOfApplications.Text);
             int newApps = allApps + difference;
             numOfApplications.Text = newApps.ToString();
+        }
+
+        private void addBtn_Click(object sender, EventArgs e)
+        {
+            AddEntry addEntry = new AddEntry(today);
+            addEntry.StartPosition = FormStartPosition.CenterParent;
+            DialogResult result = addEntry.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                int entries = Database.GetDayEntries(today);
+                var button = CalendarFlowPanel.Controls.Find(today.Day.ToString(), false);
+                button[0].BackColor = MakeGreen(entries);
+            }
         }
 
         private void closeBtn_Click(object sender, EventArgs e)

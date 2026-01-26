@@ -36,6 +36,8 @@
             closeBtn = new Button();
             label1 = new Label();
             numOfApplications = new Label();
+            button1 = new Button();
+            addBtn = new Button();
             SuspendLayout();
             // 
             // CalendarFlowPanel
@@ -113,11 +115,34 @@
             numOfApplications.TabIndex = 7;
             numOfApplications.Text = "num";
             // 
+            // button1
+            // 
+            button1.Location = new Point(93, 454);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 8;
+            button1.Text = "Search";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // addBtn
+            // 
+            addBtn.BackColor = Color.FromArgb(192, 255, 192);
+            addBtn.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            addBtn.Location = new Point(12, 454);
+            addBtn.Name = "addBtn";
+            addBtn.Size = new Size(75, 23);
+            addBtn.TabIndex = 9;
+            addBtn.Text = "Add";
+            addBtn.UseVisualStyleBackColor = false;
+            addBtn.Click += addBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(419, 489);
+            Controls.Add(addBtn);
+            Controls.Add(button1);
             Controls.Add(numOfApplications);
             Controls.Add(label1);
             Controls.Add(closeBtn);
@@ -145,5 +170,7 @@
         private Button closeBtn;
         private Label label1;
         private Label numOfApplications;
+        private Button button1;
+        private Button addBtn;
     }
 }
