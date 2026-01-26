@@ -46,6 +46,23 @@ namespace job_calendar
 
         private void addBtn_Click(object sender, EventArgs e)
         {
+            // if user decides to backfill, prompt three questions to discourage backfilling
+            var question1 = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
+            if (question1 == DialogResult.No)
+            {
+                return;
+            }
+            var question2 = MessageBox.Show("Click 'try' to continue", "Confirmation", MessageBoxButtons.CancelTryContinue);
+            if (question2 != DialogResult.TryAgain)
+            {
+                return;
+            }
+            var question3 = MessageBox.Show("To build a habit consider avoiding backfilling. Continue anyway?", "Confirmation", MessageBoxButtons.YesNo);
+            if (question3 == DialogResult.No)
+            {
+                return;
+            }
+
             AddEntry addEntry = new AddEntry(thisDate);
             addEntry.StartPosition = FormStartPosition.CenterParent;
             DialogResult result = addEntry.ShowDialog(this);

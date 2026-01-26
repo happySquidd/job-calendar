@@ -168,6 +168,7 @@ namespace job_calendar
             addEntry.StartPosition = FormStartPosition.CenterParent;
             DialogResult result = addEntry.ShowDialog(this);
 
+            // if entry is added, color it
             if (result == DialogResult.OK)
             {
                 int entries = Database.GetDayEntries(today);
