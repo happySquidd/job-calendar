@@ -47,17 +47,48 @@ namespace job_calendar
         private void addBtn_Click(object sender, EventArgs e)
         {
             // if user decides to backfill, prompt three questions to discourage backfilling
-            var question1 = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButtons.YesNo);
+            // question 1
+            var question1 = MessageBox.Show("Are you sure?", "Confirm", MessageBoxButtons.YesNo);
             if (question1 == DialogResult.No)
             {
                 return;
             }
-            var question2 = MessageBox.Show("Click 'try' to continue", "Confirmation", MessageBoxButtons.CancelTryContinue);
-            if (question2 != DialogResult.TryAgain)
+            // question 2
+            var rand = new Random();
+            int variable_x = rand.Next(100);
+            int variable_y = rand.Next(100);
+            int answer = variable_x - variable_y;
+            int fake_answer_1 = rand.Next(100);
+            int fake_answer_2 = rand.Next(100);
+            List<int> answers = new List<int>() { answer, fake_answer_1, fake_answer_2 };
+            TaskDialogButtonCollection btns = new TaskDialogButtonCollection();
+            for (int i = 0; i < 3; i++)
             {
+                int idx = rand.Next(answers.Count);
+                btns.Add(answers[idx].ToString());
+                answers.RemoveAt(idx);
+            }
+            TaskDialogButton btn1 = new TaskDialogButton($"{answer}");
+            TaskDialogButton btn2 = new TaskDialogButton($"{fake_answer_1}");
+            TaskDialogButton btn3 = new TaskDialogButton($"{fake_answer_2}");
+            TaskDialogPage question2 = new TaskDialogPage()
+            {
+                Caption = "Solve the equation",
+                Text = $"Solve: {variable_x} - {variable_y} = ?",
+                Buttons = btns
+            };
+            TaskDialogButton response = TaskDialog.ShowDialog(question2);
+            if (Int32.Parse(response.Text) != answer)
+            {
+                MessageBox.Show("Incorrect!");
                 return;
             }
-            var question3 = MessageBox.Show("To build a habit consider avoiding backfilling. Continue anyway?", "Confirmation", MessageBoxButtons.YesNo);
+            else
+            {
+                MessageBox.Show("Correct!");
+            }
+            // question 3
+            var question3 = MessageBox.Show("To build a habit consider avoiding backfilling. Continue anyway?", "Confirm", MessageBoxButtons.YesNo);
             if (question3 == DialogResult.No)
             {
                 return;
