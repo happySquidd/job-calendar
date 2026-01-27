@@ -37,13 +37,12 @@ namespace job_calendar
             if (!string.IsNullOrWhiteSpace(positionBox.Text))
             {
                 positionFilled = true;
-                CheckSubmit();
             }
             else
             {
                 positionFilled = false;
-                confirmBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         private void companyBox_TextChanged(object sender, EventArgs e)
@@ -51,27 +50,25 @@ namespace job_calendar
             if (!string.IsNullOrWhiteSpace(companyBox.Text))
             {
                 companyFilled = true;
-                CheckSubmit();
             }
             else
             {
                 companyFilled = false;
-                confirmBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         private void payBox_ValueChanged(object sender, EventArgs e)
         {
-            if (payBox.Value > 0)
+            if (payBox.Value >= 0)
             {
                 payFilled = true;
-                CheckSubmit();
             }
             else
             {
                 payFilled = false;
-                confirmBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         private void websiteBox_TextChanged(object sender, EventArgs e)
@@ -79,13 +76,12 @@ namespace job_calendar
             if (!string.IsNullOrEmpty(websiteBox.Text))
             {
                 websiteFilled = true;
-                CheckSubmit();
             }
             else
             {
                 websiteFilled = false;
-                confirmBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         public void CheckSubmit()

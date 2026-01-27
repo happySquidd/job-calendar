@@ -16,7 +16,7 @@ namespace job_calendar
         public DateTime thisDate;
         public bool positionFilled = false;
         public bool companyFilled = false;
-        public bool payFilled = false;
+        public bool payFilled = true;
         public bool websiteFilled = false;
 
         public AddEntry(DateTime date)
@@ -32,13 +32,12 @@ namespace job_calendar
             if (!string.IsNullOrWhiteSpace(positionBox.Text))
             {
                 positionFilled = true;
-                CheckSubmit();
             }
             else
             {
                 positionFilled = false;
-                addBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         private void companyBox_TextChanged(object sender, EventArgs e)
@@ -46,27 +45,25 @@ namespace job_calendar
             if (!string.IsNullOrWhiteSpace(companyBox.Text))
             {
                 companyFilled = true;
-                CheckSubmit();
             }
             else
             {
                 companyFilled = false;
-                addBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         private void payBox_ValueChanged(object sender, EventArgs e)
         {
-            if (payBox.Value > 0)
+            if (payBox.Value >= 0)
             {
                 payFilled = true;
-                CheckSubmit();
             }
             else
             {
                 payFilled = false;
-                addBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         private void websiteBox_TextChanged(object sender, EventArgs e)
@@ -74,13 +71,12 @@ namespace job_calendar
             if (!string.IsNullOrEmpty(websiteBox.Text))
             {
                 websiteFilled = true;
-                CheckSubmit();
             }
             else
             {
                 websiteFilled = false;
-                addBtn.Enabled = false;
             }
+            CheckSubmit();
         }
 
         public void CheckSubmit()
