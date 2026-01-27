@@ -118,12 +118,13 @@
             // 
             // searchBtn
             // 
-            searchBtn.Location = new Point(93, 454);
+            searchBtn.Location = new Point(174, 454);
             searchBtn.Name = "searchBtn";
             searchBtn.Size = new Size(75, 23);
             searchBtn.TabIndex = 8;
             searchBtn.Text = "Search";
             searchBtn.UseVisualStyleBackColor = true;
+            searchBtn.Visible = false;
             searchBtn.Click += searchBtn_Click;
             // 
             // addBtn
@@ -140,7 +141,7 @@
             // 
             // viewAllBtn
             // 
-            viewAllBtn.Location = new Point(174, 454);
+            viewAllBtn.Location = new Point(93, 454);
             viewAllBtn.Name = "viewAllBtn";
             viewAllBtn.Size = new Size(75, 23);
             viewAllBtn.TabIndex = 10;
