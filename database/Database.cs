@@ -231,5 +231,37 @@ namespace job_calendar.database
                 return 0;
             }
         }
+
+        public static BindingList<Applicationz> GetCompanyApplications(string companyName)
+        {
+            BindingList<Applicationz> applications = new BindingList<Applicationz>();
+
+            string query =
+                "SELECT * " +
+                "FROM applications " +
+                "WHERE LOWER(company) = @company;";
+
+            SqliteCommand cmd = new SqliteCommand(query, _db);
+            cmd.Parameters.AddWithValue("@company", companyName.ToLower());
+
+            SqliteDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Applicationz app = new Applicationz()
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    Date = Convert.ToString(reader["date"]),
+                    Position = Convert.ToString(reader["position"]),
+                    Company = Convert.ToString(reader["company"]),
+                    Pay = Convert.ToInt32(reader["pay"]),
+                    Website = Convert.ToString(reader["website"])
+                };
+
+                applications.Add(app);
+            }
+            reader.Close();
+
+            return applications;
+        }
     }
 }

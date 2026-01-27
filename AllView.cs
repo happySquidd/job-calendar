@@ -25,12 +25,17 @@ namespace job_calendar
 
             searchBox.PlaceholderText = "Company name";
 
+            allApplications = Database.GetApplications();
             LoadDgv();
+        }
+
+        private void viewAllDgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            viewAllDgv.ClearSelection();
         }
 
         private void LoadDgv()
         {
-            allApplications = Database.GetApplications();
             viewAllDgv.DataSource = allApplications;
             viewAllDgv.Columns["Id"].HeaderText = "#";
             viewAllDgv.Columns["Id"].FillWeight = 30;
@@ -63,7 +68,19 @@ namespace job_calendar
 
         private void searchBtn_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(searchBox.Text))
+            {
+                return;
+            }
 
+            allApplications = Database.GetCompanyApplications(searchBox.Text);
+            LoadDgv();
+        }
+
+        private void clearBtn_Click(object sender, EventArgs e)
+        {
+            allApplications = Database.GetApplications();
+            LoadDgv();
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
