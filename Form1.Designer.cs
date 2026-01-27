@@ -36,8 +36,9 @@
             closeBtn = new Button();
             label1 = new Label();
             numOfApplications = new Label();
-            button1 = new Button();
+            searchBtn = new Button();
             addBtn = new Button();
+            viewAllBtn = new Button();
             SuspendLayout();
             // 
             // CalendarFlowPanel
@@ -115,14 +116,15 @@
             numOfApplications.TabIndex = 7;
             numOfApplications.Text = "num";
             // 
-            // button1
+            // searchBtn
             // 
-            button1.Location = new Point(93, 454);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 8;
-            button1.Text = "Search";
-            button1.UseVisualStyleBackColor = true;
+            searchBtn.Location = new Point(93, 454);
+            searchBtn.Name = "searchBtn";
+            searchBtn.Size = new Size(75, 23);
+            searchBtn.TabIndex = 8;
+            searchBtn.Text = "Search";
+            searchBtn.UseVisualStyleBackColor = true;
+            searchBtn.Click += searchBtn_Click;
             // 
             // addBtn
             // 
@@ -136,13 +138,24 @@
             addBtn.UseVisualStyleBackColor = false;
             addBtn.Click += addBtn_Click;
             // 
+            // viewAllBtn
+            // 
+            viewAllBtn.Location = new Point(174, 454);
+            viewAllBtn.Name = "viewAllBtn";
+            viewAllBtn.Size = new Size(75, 23);
+            viewAllBtn.TabIndex = 10;
+            viewAllBtn.Text = "View All";
+            viewAllBtn.UseVisualStyleBackColor = true;
+            viewAllBtn.Click += viewAllBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(419, 489);
+            Controls.Add(viewAllBtn);
             Controls.Add(addBtn);
-            Controls.Add(button1);
+            Controls.Add(searchBtn);
             Controls.Add(numOfApplications);
             Controls.Add(label1);
             Controls.Add(closeBtn);
@@ -170,7 +183,8 @@
         private Button closeBtn;
         private Label label1;
         private Label numOfApplications;
-        private Button button1;
+        private Button searchBtn;
         private Button addBtn;
+        private Button viewAllBtn;
     }
 }

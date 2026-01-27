@@ -75,17 +75,22 @@ namespace job_calendar.database
             return monthApplications;
         }
 
-        public static BindingList<Applicationz> GetApplications(DateTime date)
+        public static BindingList<Applicationz> GetApplications(DateTime? date = null)
         {
             BindingList<Applicationz> allApplications = new BindingList<Applicationz>();
 
-            string query =
-                "SELECT * " +
-                "FROM applications " +
-                "WHERE date=@today;";
-
+            // if the date is passed in then get assessments for specific days, otherwise get all
+            string query = "SELECT * FROM applications ORDER BY date;";
             SqliteCommand cmd = new SqliteCommand(query, _db);
-            cmd.Parameters.AddWithValue("@today", date.ToString("yyyy-MM-dd"));
+            if (date != null)
+            {
+                string dateQuery =
+                    "SELECT * " +
+                    "FROM applications " +
+                    "WHERE date=@today;";
+                cmd.CommandText = dateQuery;
+                cmd.Parameters.AddWithValue("@today", date.Value.ToString("yyyy-MM-dd"));
+            }
 
             SqliteDataReader reader = cmd.ExecuteReader();
             while (reader.Read())

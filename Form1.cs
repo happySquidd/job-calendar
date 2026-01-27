@@ -177,6 +177,17 @@ namespace job_calendar
             }
         }
 
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void viewAllBtn_Click(object sender, EventArgs e)
+        {
+            AllView viewAll = new AllView();
+            viewAll.ShowDialog(this);
+        }
+
         private void closeBtn_Click(object sender, EventArgs e)
         {
             this.Close();
