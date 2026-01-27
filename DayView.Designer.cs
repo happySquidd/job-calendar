@@ -53,6 +53,7 @@
             dayListDgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dayListDgv.Size = new Size(335, 157);
             dayListDgv.TabIndex = 0;
+            dayListDgv.CellDoubleClick += dayListDgv_CellDoubleClick;
             dayListDgv.DataBindingComplete += dataBindingComplete;
             // 
             // addBtn

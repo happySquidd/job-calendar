@@ -27,7 +27,8 @@ namespace job_calendar
             // visual style
             dayListDgv.EnableHeadersVisualStyles = false;
             dayListDgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = dayListDgv.ColumnHeadersDefaultCellStyle.BackColor;
-            
+            dayListDgv.ShowCellToolTips = false;
+
             thisDate = date;
             LoadDgv();
         }
@@ -164,6 +165,21 @@ namespace job_calendar
             Applicationz selected = dayListDgv.CurrentRow.DataBoundItem as Applicationz;
             Database.DeleteEntry(selected.Id);
             applications.Remove(selected);
+        }
+
+        private void dayListDgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // copy the website link on double click
+            if (e.RowIndex >= 0)
+            {
+                var cellString = dayListDgv.Rows[e.RowIndex].Cells["Website"].Value;
+                Clipboard.SetText(cellString.ToString());
+
+                // display a tooltip to show that it copied
+                Point mouse = dayListDgv.PointToClient(Cursor.Position);
+                ToolTip toolTip = new ToolTip();
+                toolTip.Show("Copied!", dayListDgv, mouse.X + 10, mouse.Y, 700);
+            }
         }
 
         private void closeBtn_Click(object sender, EventArgs e)
