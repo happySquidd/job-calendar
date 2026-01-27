@@ -1,9 +1,11 @@
 ﻿using job_calendar.database;
 using job_calendar.model;
+using Mysqlx.Expr;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -54,12 +56,39 @@ namespace job_calendar
                 return;
             }
             // question 2
+            // create an equation with two random variables and three guesses to select from
             var rand = new Random();
             int variable_x = rand.Next(100);
             int variable_y = rand.Next(100);
             int answer = variable_x - variable_y;
-            int fake_answer_1 = rand.Next(100);
-            int fake_answer_2 = rand.Next(100);
+            // add or substract a random range from the answer to make it harder to guess
+            int rand_variable_1 = rand.Next(1, 10);
+            int rand_variable_2 = rand.Next(1, 10);
+            // randomly choose to add or substract
+            List<string> operation = new List<string>() { "plus", "minus" };
+            int operation_1 = rand.Next(2);
+            int operation_2 = rand.Next(2);
+            int fake_answer_1;
+            int fake_answer_2;
+            // fake answer one
+            if (operation[operation_1] == "plus")
+            {
+                fake_answer_1 = answer + rand_variable_1;
+            }
+            else
+            {
+                fake_answer_1 = answer - rand_variable_1;
+            }
+            // fake answer two
+            if (operation[operation_2] == "plus")
+            {
+                fake_answer_2 = answer + rand_variable_2;
+            }
+            else
+            {
+                fake_answer_2 = answer - rand_variable_2;
+            }
+            // randomly pick from the list of answers so buttons are always in a different place
             List<int> answers = new List<int>() { answer, fake_answer_1, fake_answer_2 };
             TaskDialogButtonCollection btns = new TaskDialogButtonCollection();
             for (int i = 0; i < 3; i++)
@@ -80,12 +109,8 @@ namespace job_calendar
             TaskDialogButton response = TaskDialog.ShowDialog(question2);
             if (Int32.Parse(response.Text) != answer)
             {
-                MessageBox.Show("Incorrect!");
+                MessageBox.Show("Incorrect :(");
                 return;
-            }
-            else
-            {
-                MessageBox.Show("Correct!");
             }
             // question 3
             var question3 = MessageBox.Show("To build a habit consider avoiding backfilling. Continue anyway?", "Confirm", MessageBoxButtons.YesNo);

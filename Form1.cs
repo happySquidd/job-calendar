@@ -129,17 +129,17 @@ namespace job_calendar
             switch (number)
             {
                 case 1:
-                    return Color.FromArgb(204, 255, 204);
+                    return Color.FromArgb(242, 255, 242);
                 case 2:
-                    return Color.FromArgb(153, 255, 153);
+                    return Color.FromArgb(222, 255, 222);
                 case 3:
-                    return Color.FromArgb(102, 255, 102);
+                    return Color.FromArgb(207, 255, 207);
                 case 4:
-                    return Color.FromArgb(51, 255, 51);
+                    return Color.FromArgb(173, 255, 173);
                 case 5:
-                    return Color.FromArgb(0, 255, 0);
+                    return Color.FromArgb(153, 255, 153);
                 case >= 6:
-                    return Color.FromArgb(0, 204, 0);
+                    return Color.FromArgb(120, 255, 120);
                 default:
                     return Color.White;
             }
