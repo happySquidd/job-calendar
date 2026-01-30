@@ -20,7 +20,7 @@ namespace job_calendar
         {
             InitializeComponent();
 
-            viewAllDgv.EnableHeadersVisualStyles = false;
+            //viewAllDgv.EnableHeadersVisualStyles = false;
             viewAllDgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = viewAllDgv.ColumnHeadersDefaultCellStyle.BackColor;
 
             searchBox.PlaceholderText = "Company name";
@@ -36,19 +36,30 @@ namespace job_calendar
 
         private void LoadDgv()
         {
-            viewAllDgv.DataSource = allApplications;
+            // copy the list into a data table to allow sorting
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("Date", typeof(string));
+            dt.Columns.Add("Position", typeof(string));
+            dt.Columns.Add("Company", typeof(string));
+            dt.Columns.Add("Pay", typeof(int));
+            dt.Columns.Add("Website", typeof(string));
+
+            int newId = 1;
+            foreach (Applicationz item in allApplications)
+            {
+                // overwrite the id value to the number of the item relative to the list
+                item.Id = newId;
+                newId++;
+
+                dt.Rows.Add(item.Id, item.Date, item.Position, item.Company, item.Pay, item.Website);
+            }
+            viewAllDgv.DataSource = dt;
+
             viewAllDgv.Columns["Id"].HeaderText = "#";
             viewAllDgv.Columns["Id"].FillWeight = 30;
             viewAllDgv.Columns["Date"].FillWeight = 60;
             viewAllDgv.Columns["Pay"].FillWeight = 35;
-
-            // overwrite the id value to the number of the item relative to the list
-            int newId = 1;
-            foreach (Applicationz application in allApplications)
-            {
-                application.Id = newId;
-                newId++;
-            }
         }
 
         private void viewAllDgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -86,6 +97,19 @@ namespace job_calendar
         private void closeBtn_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void viewAllDgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridViewColumn selected = viewAllDgv.Columns[e.ColumnIndex];
+            ListSortDirection direction = ListSortDirection.Ascending;
+
+            if (selected.HeaderCell.SortGlyphDirection == SortOrder.Ascending)
+            {
+                direction = ListSortDirection.Descending;
+            }
+
+
         }
     }
 }

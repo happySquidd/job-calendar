@@ -53,6 +53,7 @@
             viewAllDgv.Size = new Size(445, 232);
             viewAllDgv.TabIndex = 4;
             viewAllDgv.CellDoubleClick += viewAllDgv_CellDoubleClick;
+            viewAllDgv.ColumnHeaderMouseClick += viewAllDgv_ColumnHeaderMouseClick;
             viewAllDgv.DataBindingComplete += viewAllDgv_DataBindingComplete;
             // 
             // searchBtn
@@ -102,7 +103,11 @@
             Controls.Add(closeBtn);
             Controls.Add(searchBtn);
             Controls.Add(viewAllDgv);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "AllView";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "View All";
             ((System.ComponentModel.ISupportInitialize)viewAllDgv).EndInit();
             ResumeLayout(false);

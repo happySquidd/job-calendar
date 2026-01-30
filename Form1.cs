@@ -174,6 +174,8 @@ namespace job_calendar
                 int entries = Database.GetDayEntries(today);
                 var button = CalendarFlowPanel.Controls.Find(today.Day.ToString(), false);
                 button[0].BackColor = MakeGreen(entries);
+                // update the application count
+                numOfApplications.Text = (Convert.ToInt32(numOfApplications.Text) + 1).ToString();
             }
         }
 
