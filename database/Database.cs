@@ -239,10 +239,10 @@ namespace job_calendar.database
             string query =
                 "SELECT * " +
                 "FROM applications " +
-                "WHERE LOWER(company) = @company;";
+                "WHERE LOWER(company) LIKE @company;";
 
             SqliteCommand cmd = new SqliteCommand(query, _db);
-            cmd.Parameters.AddWithValue("@company", companyName.ToLower());
+            cmd.Parameters.AddWithValue("@company", "%" + companyName.ToLower() + "%");
 
             SqliteDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
